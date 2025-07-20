@@ -100,6 +100,20 @@ public class PersonViewModelTests
     }
 
     [Fact]
+    public void ErrorsChanged_ShouldFire_WhenErrorExists()
+    {
+        //arrange
+        var fired = false;
+        _sut.ErrorsChanged += (_,_)=> fired = true;
+        
+        //act
+        _sut.Name = new string('a', 11);
+        
+        //assert
+        fired.ShouldBeTrue();
+    }
+
+    [Fact]
     public void UpdateLastUpdateTime_ShouldUpdateTheLastUpdatedTime_WhenValid()
     {
         //arrange

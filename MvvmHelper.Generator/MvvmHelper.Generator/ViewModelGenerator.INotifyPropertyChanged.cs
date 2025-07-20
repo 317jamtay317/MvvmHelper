@@ -39,6 +39,7 @@ public partial class ViewModelGenerator
                 }
                 {{ValidationCall}}
                 OnPropertyChanged(propertyName);
+                {{ImplementINotifyDataErrorInfoRaiseErrorsChanged}}
                 return true;
             }
             private Dictionary<string, object> _propertiesValues = new();

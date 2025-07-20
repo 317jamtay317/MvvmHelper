@@ -43,6 +43,10 @@ public partial class ViewModelGenerator
                     }
                 }
         """;
+    private const string ImplementINotifyDataErrorInfoRaiseErrorsChanged =
+        """
+        ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
+        """;
     private static string ImplementIDataErrorInfoTemplate(ClassInfo classInfo, string currentClassText)
     {
         if (!classInfo.ImplementINotifyPropertyChanged) return currentClassText;
@@ -50,13 +54,15 @@ public partial class ViewModelGenerator
         {
                     return currentClassText.Replace("{{IDataErrorInfo}}", IDataErrorInfoInterfaceTemplate)
                         .Replace("{{IDataErrorInfoImplementation}}", IDataErrorInfoImplementationTemplate)
-                        .Replace("{{ValidationCall}}", ValidationCallTemplate);
+                        .Replace("{{ValidationCall}}", ValidationCallTemplate)
+                        .Replace("{{ImplementINotifyDataErrorInfoRaiseErrorsChanged}}", ImplementINotifyDataErrorInfoRaiseErrorsChanged);
         }
         else
         {
             return currentClassText.Replace("{{IDataErrorInfo}}", string.Empty)
                 .Replace("{{IDataErrorInfoImplementation}}", string.Empty)
-                .Replace("{{ValidationCall}}", string.Empty);
+                .Replace("{{ValidationCall}}", string.Empty)
+                .Replace("{{ImplementINotifyDataErrorInfoRaiseErrorsChanged}}", string.Empty);
         }
 
     }
