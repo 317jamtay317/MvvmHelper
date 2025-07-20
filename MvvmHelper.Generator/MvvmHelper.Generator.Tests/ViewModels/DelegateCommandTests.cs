@@ -1,6 +1,4 @@
-﻿using System;
-using System.ComponentModel.Design;
-using MvvmHelper.Generator.Sample;
+﻿using MvvmHelper.Generator.Sample;
 using Shouldly;
 using Xunit;
 
@@ -13,8 +11,11 @@ public class DelegateCommandTests
     {
         //arrange
         bool fired = false;
-        Action action = () => fired = true;
-        var command = new DelegateCommand(action);
+
+        void Action() =>
+            fired = true;
+
+        var command = new DelegateCommand(Action);
         
         //act
         command.Execute(null);
@@ -28,9 +29,14 @@ public class DelegateCommandTests
     {
         //arrange
         bool fired = false;
-        Func<bool> canExecute = () => true;
-        Action action = () => fired = true;
-        var command = new DelegateCommand(action, canExecute);
+
+        bool CanExecute() =>
+            true;
+
+        void Action() =>
+            fired = true;
+
+        var command = new DelegateCommand(Action, CanExecute);
         
         //act
         var result =  command.CanExecute(null);  
@@ -45,9 +51,14 @@ public class DelegateCommandTests
     {
         //arrange
         var fired = false;
-        Func<bool> canExecute = () => false;
-        Action action = () => fired = true;
-        var command = new DelegateCommand(action, canExecute);
+
+        bool CanExecute() =>
+            false;
+
+        void Action() =>
+            fired = true;
+
+        var command = new DelegateCommand(Action, CanExecute);
         
         //act
         var result =  command.CanExecute(null);
@@ -66,8 +77,11 @@ public class DelegateCommandTests
         var personA = new Person("First", "Last");
         var personB = new Person("First", "Last");
         var correctParameter = false;
-        Action<Person> action = (p) => correctParameter = p.Equals(personB);
-        var command = new DelegateCommand<Person>(action);
+
+        void Action(Person p) =>
+            correctParameter = p.Equals(personB);
+
+        var command = new DelegateCommand<Person>(Action);
         
         //act
         command.Execute(personA);
@@ -82,8 +96,11 @@ public class DelegateCommandTests
         //arrange
         bool fired = false;
         Person? person = null;
-        Action<Person?> action = (p) => fired = true;
-        var command = new DelegateCommand<Person>(action);
+
+        void Action(Person? _) =>
+            fired = true;
+
+        var command = new DelegateCommand<Person>(Action);
         
         //act
         command.Execute(person);
@@ -98,7 +115,7 @@ public class DelegateCommandTests
         //arrange
         var canExecuteChanged = false;
         var command = new DelegateCommand(() => { }, () => true);
-        command.CanExecuteChanged += (s, e) => canExecuteChanged = true;
+        command.CanExecuteChanged += (_, _) => canExecuteChanged = true;
         
         //act
         command.RaiseCanExecuteChanged();

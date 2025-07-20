@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Input;
 
 namespace MvvmHelper.Generator.Sample.ViewModels;
 
@@ -21,7 +20,7 @@ public partial class PersonViewModel
     }
 
     public DateTime LastTimeUpdated { get; private set; }
-    public bool IsLoaded { get; set; }
+    public bool IsLoaded { get; private set; }
 
     public string Name
     {
