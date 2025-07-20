@@ -49,7 +49,14 @@ public partial class ViewModelGenerator
         """;
     private static string ImplementIDataErrorInfoTemplate(ClassInfo classInfo, string currentClassText)
     {
-        if (!classInfo.ImplementINotifyPropertyChanged) return currentClassText;
+        if (!classInfo.ImplementINotifyPropertyChanged)
+        {
+            return currentClassText.Replace("{{IDataErrorInfo}}", string.Empty)
+                .Replace("{{IDataErrorInfoImplementation}}", string.Empty)
+                .Replace("{{ValidationCall}}", string.Empty)
+                .Replace("{{ImplementINotifyDataErrorInfoRaiseErrorsChanged}}", string.Empty);
+
+        }
         if (classInfo.ImplementIDataErrorInfo)
         {
                     return currentClassText.Replace("{{IDataErrorInfo}}", IDataErrorInfoInterfaceTemplate)

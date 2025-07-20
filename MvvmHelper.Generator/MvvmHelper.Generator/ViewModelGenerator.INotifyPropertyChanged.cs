@@ -48,7 +48,11 @@ public partial class ViewModelGenerator
 
     public static string ImplementINotifyPropertyChangedTemplate(ClassInfo classInfo, string currentClassText)
     {
-        if(!classInfo.ImplementINotifyPropertyChanged) return currentClassText;
+        if (!classInfo.ImplementINotifyPropertyChanged)
+        {
+            return currentClassText.Replace("{{INotifyPropertyChanged}}", string.Empty)
+                .Replace("{{INotifyPropertyChangedImplementation}}", string.Empty);
+        }
         return currentClassText.Replace("{{INotifyPropertyChanged}}", INotifyPropertyChangedInterfaceTemplate)
             .Replace("{{INotifyPropertyChangedImplementation}}", INotifyPropertyChangedImplementationTemplate);
     }
