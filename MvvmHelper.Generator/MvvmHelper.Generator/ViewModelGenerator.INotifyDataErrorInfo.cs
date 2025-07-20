@@ -16,7 +16,9 @@ public partial class ViewModelGenerator
             /// </remarks>
             private Func<string, IEnumerable<string>> ValidateViewModel { get; set; }
             
+            #pragma warning disable CS0067
             public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+            #pragma warning disable CS0067
             
             public System.Collections.IEnumerable GetErrors(string propertyName)
             {
@@ -44,9 +46,18 @@ public partial class ViewModelGenerator
     private static string ImplementIDataErrorInfoTemplate(ClassInfo classInfo, string currentClassText)
     {
         if (!classInfo.ImplementINotifyPropertyChanged) return currentClassText;
-        if (!classInfo.ImplementIDataErrorInfo) return currentClassText;
-        return currentClassText.Replace("{{IDataErrorInfo}}", IDataErrorInfoInterfaceTemplate)
-            .Replace("{{IDataErrorInfoImplementation}}", IDataErrorInfoImplementationTemplate)
-            .Replace("{{ValidationCall}}", ValidationCallTemplate);
+        if (classInfo.ImplementIDataErrorInfo)
+        {
+                    return currentClassText.Replace("{{IDataErrorInfo}}", IDataErrorInfoInterfaceTemplate)
+                        .Replace("{{IDataErrorInfoImplementation}}", IDataErrorInfoImplementationTemplate)
+                        .Replace("{{ValidationCall}}", ValidationCallTemplate);
+        }
+        else
+        {
+            return currentClassText.Replace("{{IDataErrorInfo}}", string.Empty)
+                .Replace("{{IDataErrorInfoImplementation}}", string.Empty)
+                .Replace("{{ValidationCall}}", string.Empty);
+        }
+
     }
 }

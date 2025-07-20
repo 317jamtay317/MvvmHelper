@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MvvmHelper.Generator.Sample.ViewModels;
 
-[GenerateViewModel]
+[GenerateViewModel(UseIDataErrorInfo = true)]
 public partial class PersonViewModel
 {
     public PersonViewModel()

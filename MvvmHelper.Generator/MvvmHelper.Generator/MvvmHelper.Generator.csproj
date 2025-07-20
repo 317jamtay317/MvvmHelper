@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <IsPackable>false</IsPackable>
+        <IsPackable>true</IsPackable>
         <Nullable>enable</Nullable>
         <LangVersion>latest</LangVersion>
 
@@ -18,7 +18,7 @@
         <Description>Generate View Model Methods and boilerplate code.</Description>
         <Copyright>©2025 James Tays</Copyright>
         <PackageProjectUrl>https://github.com/317jamtay317/MvvmHelper</PackageProjectUrl>
-        <PackageLicenseUrl>https://github.com/317jamtay317/MvvmHelper?tab=License-1-ov-file</PackageLicenseUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <RepositoryUrl>https://github.com/317jamtay317/MvvmHelper</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageTags>mvvm wpf</PackageTags>

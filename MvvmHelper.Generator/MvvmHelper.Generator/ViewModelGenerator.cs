@@ -91,7 +91,7 @@ public partial class ViewModelGenerator : IIncrementalGenerator
         var attributeData = classSymbol?.GetAttributes()
             .FirstOrDefault(ad => ad.AttributeClass?.ToDisplayString() == "MvvmHelper.Generator.GenerateViewModelAttribute");
         // Default value
-        bool implementIDataErrorInfo = true;
+        bool implementIDataErrorInfo = false;
 
         if (attributeData != null)
         {
