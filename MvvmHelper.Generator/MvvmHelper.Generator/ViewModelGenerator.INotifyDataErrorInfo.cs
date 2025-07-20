@@ -11,14 +11,14 @@ public partial class ViewModelGenerator
             /// Validates the ViewModel. See Remarks...
             /// </summary>
             /// <remarks>
-            /// if this is not set, no validation will be performed. This will be called in SetValue after the property is set.
-            /// The property name will be passed as parameter, and the function should return a list of errors for that property.
+            /// If this is not set, no validation will be performed. This will be called in SetValue after the property is set.
+            /// The property name will be passed as a parameter, and the function should return a list of errors for that property.
             /// </remarks>
-            private Func<string, IEnumerable<string>>? ValidateViewModel { get; set; }
+            private Func<string, IEnumerable<string>> ValidateViewModel { get; set; }
             
-            public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
+            public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
             
-            public System.Collections.IEnumerable GetErrors(string? propertyName)
+            public System.Collections.IEnumerable GetErrors(string propertyName)
             {
                var list = Errors[propertyName?? string.Empty];
                 return list?.AsEnumerable()??[]; 

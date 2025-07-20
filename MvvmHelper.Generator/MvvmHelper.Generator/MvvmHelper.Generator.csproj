@@ -10,7 +10,19 @@
         <IsRoslynComponent>true</IsRoslynComponent>
 
         <RootNamespace>MvvmHelper.Generator</RootNamespace>
-        <PackageId>MvvmHelper.Generator</PackageId>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageId>JailaFiles.MvvmHelper.Generator</PackageId>
+        <Version>0.1.1-alpha</Version>
+        <Title>Mvvm ViewModel Source Generator</Title>
+        <Authors>James Tays</Authors>
+        <Description>Generate View Model Methods and boilerplate code.</Description>
+        <Copyright>©2025 James Tays</Copyright>
+        <PackageProjectUrl>https://github.com/317jamtay317/MvvmHelper</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/317jamtay317/MvvmHelper?tab=License-1-ov-file</PackageLicenseUrl>
+        <RepositoryUrl>https://github.com/317jamtay317/MvvmHelper</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageTags>mvvm wpf</PackageTags>
+        <PackageReleaseNotes>inital release</PackageReleaseNotes>
     </PropertyGroup>
 
     <ItemGroup>

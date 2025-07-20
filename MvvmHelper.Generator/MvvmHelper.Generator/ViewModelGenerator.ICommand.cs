@@ -15,11 +15,11 @@ public partial class ViewModelGenerator
         
         public abstract class DelegateCommandBase : ICommand
         {
-            public abstract bool CanExecute(object? parameter);
+            public abstract bool CanExecute(object parameter);
         
-            public abstract void Execute(object? parameter);
+            public abstract void Execute(object parameter);
         
-            public event EventHandler? CanExecuteChanged;
+            public event EventHandler CanExecuteChanged;
             
             public void RaiseCanExecuteChanged() => 
                 CanExecuteChanged?.Invoke(this, EventArgs.Empty);
@@ -39,10 +39,10 @@ public partial class ViewModelGenerator
             {
             }
         
-            public override bool CanExecute(object? parameter) =>
+            public override bool CanExecute(object parameter) =>
                 _canExecute();
         
-            public override void Execute(object? parameter)
+            public override void Execute(object parameter)
             {
                 if (!CanExecute(parameter)) return;
                 _execute();
@@ -61,10 +61,10 @@ public partial class ViewModelGenerator
             }
             public DelegateCommand(Action<T> execute): this(execute, _ => true) { }
         
-            public override bool CanExecute(object? parameter) =>
+            public override bool CanExecute(object parameter) =>
                 _canExecute((T)parameter);
         
-            public override void Execute(object? parameter)
+            public override void Execute(object parameter)
             {
                 if (!CanExecute((T)parameter)) return;
                 _execute((T)parameter);

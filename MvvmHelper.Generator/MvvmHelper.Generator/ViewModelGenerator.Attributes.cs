@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 
@@ -39,7 +38,7 @@ public partial class ViewModelGenerator
             [AttributeUsage(AttributeTargets.Method)]
             public class GenerateCommandAttribute : Attribute
             {
-                public string? CanExecuteMethod { get; set; }
+                public string CanExecuteMethod { get; set; }
             }
         }
         """;

@@ -9,13 +9,13 @@ public partial class ViewModelGenerator
 
     private const string INotifyPropertyChangedImplementationTemplate =
         """
-            public event PropertyChangedEventHandler? PropertyChanged;
+            public event PropertyChangedEventHandler PropertyChanged;
 
-            protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+            protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
             {
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
-            private T GetValue<T>([CallerMemberName] string? propertyName = null)
+            private T GetValue<T>([CallerMemberName] string propertyName = null)
             {
                 if (propertyName is null) throw new ArgumentNullException(nameof(propertyName));
                 if (_propertiesValues.TryGetValue(propertyName, out var value))
@@ -25,7 +25,7 @@ public partial class ViewModelGenerator
                 return default!;
             }
          
-            private bool SetValue<T>(T value, [CallerMemberName] string? propertyName = null)
+            private bool SetValue<T>(T value, [CallerMemberName] string propertyName = null)
             {
                 if (propertyName is null) throw new ArgumentNullException(nameof(propertyName));
                 if (_propertiesValues.TryGetValue(propertyName, out var oldValue))

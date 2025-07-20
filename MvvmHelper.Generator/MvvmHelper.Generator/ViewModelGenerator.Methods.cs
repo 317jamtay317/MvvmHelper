@@ -21,7 +21,7 @@ public partial class ViewModelGenerator
 
     private const string CommandTemplate =
          """
-             private DelegateCommand{{generic}}? _{{commandName}} = null;
+             private DelegateCommand{{generic}} _{{commandName}} = null;
              public ICommand {{commandName}}
              {
                 get
