@@ -10,9 +10,8 @@
         <IsRoslynComponent>true</IsRoslynComponent>
 
         <RootNamespace>MvvmHelper.Generator</RootNamespace>
-        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
         <PackageId>JailaFiles.MvvmHelper.Generator</PackageId>
-        <Version>0.2.1-alpha</Version>
+        <Version>0.2.2-alpha</Version>
         <Title>Mvvm ViewModel Source Generator</Title>
         <Authors>James Tays</Authors>
         <Description>Generate View Model Methods and boilerplate code.</Description>

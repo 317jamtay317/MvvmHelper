@@ -7,10 +7,8 @@
         <UseWpf>true</UseWpf>
         <ImplicitUsings>true</ImplicitUsings>
         <RootNamespace>MvvmHelper</RootNamespace>
-        
-        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
         <PackageId>JailaFiles.MvvmHelper</PackageId>
-        <Version>0.2.1-alpha</Version>
+        <Version>0.2.2-alpha</Version>
         <Title>Mvvm Helper</Title>
         <Authors>James Tays</Authors>
         <Description>Contains code that generaly helps with mvvm and makes our life easier.</Description>
