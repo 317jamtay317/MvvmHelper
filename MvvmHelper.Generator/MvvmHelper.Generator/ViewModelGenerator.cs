@@ -16,6 +16,7 @@ public partial class ViewModelGenerator : IIncrementalGenerator
         using System.Runtime.CompilerServices;
         using System.Collections.Generic;
         using System.ComponentModel;
+        using MvvmHelper.Interfaces;
         namespace {{Namespace}};
 
         {{Accessibility}} partial class {{className}} {{INotifyPropertyChanged}}{{IDataErrorInfo}}
@@ -26,8 +27,6 @@ public partial class ViewModelGenerator : IIncrementalGenerator
         """;
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        AddAttributes(context);
-        AddCommands(context);
         var provider = context.SyntaxProvider.CreateSyntaxProvider((node, _) => 
                 ViewModelPredicate(node),
                 TransformViewModel)
@@ -46,6 +45,7 @@ public partial class ViewModelGenerator : IIncrementalGenerator
         output = ImplementIDataErrorInfoTemplate(classInfo, output);
         context.AddSource($"{classInfo.Name}.g.cs", output);
         GenerateCommandsFile(context, classInfo);
+        GenerateIChangeTrackingFile(context, classInfo);
     }
 
     private static ClassInfo? TransformViewModel(GeneratorSyntaxContext syntaxContext, CancellationToken cancellationToken)
@@ -64,7 +64,7 @@ public partial class ViewModelGenerator : IIncrementalGenerator
                 if(attributeSymbol.Symbol is not IMethodSymbol methodSymbol) continue;
                 
                 var attributeClass = methodSymbol.ContainingType;
-                if(attributeClass.ToDisplayString() != "MvvmHelper.Generator.GenerateViewModelAttribute")continue;
+                if(attributeClass.ToDisplayString() != "MvvmHelper.Attributes.GenerateViewModelAttribute")continue;
                 
                 var classSymbol = syntaxContext.SemanticModel.GetDeclaredSymbol(classDeclarationSyntax, cancellationToken);
                 var implementINotify = GetImplementINotifyPropertyChanged(classSymbol);
@@ -77,6 +77,8 @@ public partial class ViewModelGenerator : IIncrementalGenerator
                     Properties = GetProperties(classSymbol),
                     ImplementINotifyPropertyChanged = implementINotify,
                     ImplementIDataErrorInfo = implementIDataErrorInfo,
+                    ImplementIChangeTracking = GetImplementIChangeTracking(classSymbol),
+                    ImplementIsDirty = GetImplementIsDirty(classSymbol),
                     Commands = GetCommands(classSymbol)
                 };
                 return classInfo;
@@ -85,29 +87,7 @@ public partial class ViewModelGenerator : IIncrementalGenerator
 
         return null;
     }
-
-    private static bool GetImplementIDataErrorInfo(ISymbol? classSymbol)
-    {
-        var attributeData = classSymbol?.GetAttributes()
-            .FirstOrDefault(ad => ad.AttributeClass?.ToDisplayString() == "MvvmHelper.Generator.GenerateViewModelAttribute");
-        // Default value
-        bool implementIDataErrorInfo = false;
-
-        if (attributeData != null)
-        {
-            foreach (var namedArg in attributeData.NamedArguments)
-            {
-                if (namedArg.Key == "UseIDataErrorInfo" && namedArg.Value.Value is bool boolValue)
-                {
-                    implementIDataErrorInfo = boolValue;
-                    break;
-                }
-            }
-        }
-
-        return implementIDataErrorInfo;
-    }
-
+    
     private static List<PropertyInfo> GetProperties(ISymbol? classSymbol)
     {
         List<PropertyInfo> properties = [];

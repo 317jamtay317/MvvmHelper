@@ -10,9 +10,9 @@
         <IsRoslynComponent>true</IsRoslynComponent>
 
         <RootNamespace>MvvmHelper.Generator</RootNamespace>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
         <PackageId>JailaFiles.MvvmHelper.Generator</PackageId>
-        <Version>0.1.1-alpha</Version>
+        <Version>0.2.1-alpha</Version>
         <Title>Mvvm ViewModel Source Generator</Title>
         <Authors>James Tays</Authors>
         <Description>Generate View Model Methods and boilerplate code.</Description>
@@ -23,6 +23,7 @@
         <RepositoryType>git</RepositoryType>
         <PackageTags>mvvm wpf</PackageTags>
         <PackageReleaseNotes>inital release</PackageReleaseNotes>
+        <IncludeBuildOutput>false</IncludeBuildOutput>
     </PropertyGroup>
 
     <ItemGroup>
@@ -34,5 +35,12 @@
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.3.0"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <None Include="$(OutputPath)/$(AssemblyName).dll">
+            <Pack>True</Pack>
+            <PackagePath>analyzers/dotnet/cs</PackagePath>
+            <Visible>false</Visible>
+        </None>
+    </ItemGroup>
 
 </Project>

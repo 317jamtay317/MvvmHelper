@@ -18,4 +18,8 @@ public record ClassInfo
     public List<PropertyInfo> Properties { get; set; } = new();
     
     public List<CommandInfo> Commands { get; set; } = new();
+
+    public bool ImplementIChangeTracking { get; set; }
+
+    public bool ImplementIsDirty { get; set; }
 }

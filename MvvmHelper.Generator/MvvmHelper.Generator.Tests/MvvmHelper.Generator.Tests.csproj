@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFramework>net9.0-windows</TargetFramework>
         <Nullable>enable</Nullable>
 
         <IsPackable>false</IsPackable>
@@ -21,6 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\MvvmHelper\MvvmHelper.csproj" />
         <ProjectReference Include="..\MvvmHelper.Generator.Sample\MvvmHelper.Generator.Sample.csproj" />
         <ProjectReference Include="..\MvvmHelper.Generator\MvvmHelper.Generator.csproj"/>
     </ItemGroup>

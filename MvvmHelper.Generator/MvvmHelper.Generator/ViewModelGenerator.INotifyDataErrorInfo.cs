@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using Microsoft.CodeAnalysis;
 
 namespace MvvmHelper.Generator;
 
@@ -27,6 +29,8 @@ public partial class ViewModelGenerator
             }
 
             public bool HasErrors => Errors.Any();
+            
+            public bool IsValid => !HasErrors;
 
             private Dictionary<string, List<string>> Errors { get; } = new();
         """;
@@ -72,5 +76,27 @@ public partial class ViewModelGenerator
                 .Replace("{{ImplementINotifyDataErrorInfoRaiseErrorsChanged}}", string.Empty);
         }
 
+    }
+    
+    private static bool GetImplementIDataErrorInfo(ISymbol? classSymbol)
+    {
+        var attributeData = classSymbol?.GetAttributes()
+            .FirstOrDefault(ad => ad.AttributeClass?.ToDisplayString() == "MvvmHelper.Attributes.GenerateViewModelAttribute");
+        // Default value
+        bool implementIDataErrorInfo = false;
+
+        if (attributeData != null)
+        {
+            foreach (var namedArg in attributeData.NamedArguments)
+            {
+                if (namedArg.Key == "UseIDataErrorInfo" && namedArg.Value.Value is bool boolValue)
+                {
+                    implementIDataErrorInfo = boolValue;
+                    break;
+                }
+            }
+        }
+
+        return implementIDataErrorInfo;
     }
 }

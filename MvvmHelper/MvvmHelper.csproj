@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0-windows</TargetFramework>
+        <LangVersion>latestmajor</LangVersion>
+        <Nullable>enable</Nullable>
+        <UseWpf>true</UseWpf>
+        <ImplicitUsings>true</ImplicitUsings>
+        <RootNamespace>MvvmHelper</RootNamespace>
+        
+        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+        <PackageId>JailaFiles.MvvmHelper</PackageId>
+        <Version>0.2.1-alpha</Version>
+        <Title>Mvvm Helper</Title>
+        <Authors>James Tays</Authors>
+        <Description>Contains code that generaly helps with mvvm and makes our life easier.</Description>
+        <Copyright>©2025 James Tays</Copyright>
+        <PackageProjectUrl>https://github.com/317jamtay317/MvvmHelper</PackageProjectUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <RepositoryUrl>https://github.com/317jamtay317/MvvmHelper</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageTags>mvvm wpf</PackageTags>
+        <PackageReleaseNotes>inital release</PackageReleaseNotes>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.7" />
+    </ItemGroup>
+
+</Project>

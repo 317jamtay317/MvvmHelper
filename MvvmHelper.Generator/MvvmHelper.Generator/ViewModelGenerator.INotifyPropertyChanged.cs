@@ -40,8 +40,20 @@ public partial class ViewModelGenerator
                 {{ValidationCall}}
                 OnPropertyChanged(propertyName);
                 {{ImplementINotifyDataErrorInfoRaiseErrorsChanged}}
+                if(this is IValueTracking valueTracking)
+                {
+                    valueTracking.TrackValue(propertyName, oldValue);
+                }
                 return true;
             }
+            
+            protected bool SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
+            {
+                if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+                field = value;
+                return SetValue(value, propertyName);
+            }
+            
             private Dictionary<string, object> _propertiesValues = new();
         """;
 

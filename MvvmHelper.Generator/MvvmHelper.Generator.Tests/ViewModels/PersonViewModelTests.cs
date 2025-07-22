@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using MvvmHelper.Generator.Sample.ViewModels;
+﻿using MvvmHelper.Generator.Sample;
 using Shouldly;
 using Xunit;
 
@@ -9,10 +7,10 @@ namespace MvvmHelper.Generator.Tests.ViewModels;
 public class PersonViewModelTests
 {
     [Fact]
-    public void LoadedCommand_ShouldSetIsLoaded_WhenCalled()
+    public void LoadedCommand_ShouldSetIsLoaded_ToTrue()
     {
         //arrange
-
+        
         //act
         _sut.LoadedCommand.Execute(null);
         
@@ -21,125 +19,155 @@ public class PersonViewModelTests
     }
 
     [Fact]
-    public void Name_ShouldSetValue_WhenSet()
+    public void IsValid_ShouldBeFalse_WhenNameIsToLong()
     {
         //arrange
 
         //act
-        _sut.Name = "John";
+        _sut.FirstName = new string('a', 51);
         
         //assert
-        _sut.Name.ShouldBe("John");
+        _sut.IsValid.ShouldBeFalse();
     }
 
     [Fact]
-    public void Name_ShouldCallOnPropertyChanged_WhenSet()
+    public void IsChanged_ShouldBeSetToTrue_WhenNameChanges()
     {
         //arrange
-        bool fired = false;
-        _sut.PropertyChanged += (s, e) =>
-        {
-            if (e.PropertyName == nameof(_sut.Name))
-            {
-                fired = true;
-            }
-        };
         
         //act
-        _sut.Name = "John";
+        _sut.FirstName = "Test Name";
         
         //assert
-        fired.ShouldBeTrue();
+        _sut.IsChanged.ShouldBeTrue();
     }
 
     [Fact]
-    public void Name_ShouldNotCallOnPropertyChanged_WhenValueDoesntChange()
+    public void IsChanged_ShouldBeSetToTrue_WhenIsLoadedChanges()
     {
         //arrange
-        bool fired = false;
-        _sut.Name = "John";
-        _sut.PropertyChanged += (s, e) =>
-        {
-            if (e.PropertyName == nameof(_sut.Name))
-            {
-                fired = true;
-            }
-        };
-        
+
         //act
-        _sut.Name = "John";
+        _sut.IsLoaded = true;
         
         //assert
-        fired.ShouldBeFalse();
+        _sut.IsChanged.ShouldBeTrue();
     }
 
     [Fact]
-    public void HasErrors_ShouldHaveError_WhenPropertyNameIsLongerThan10()
+    public void FirstNameOriginalValue_ShouldBeCorrect_WhenValueChanges()
     {
         //arrange
+        const string originalValue = "Original Name";;
+        _sut.FirstName = originalValue;
+        _sut.AcceptChanges();
         
         //act
-        _sut.Name = new string('a', 11);
-
+        _sut.FirstName = "New Name";
+        
         //assert
-        _sut.HasErrors.ShouldBeTrue();
+        _sut.FirstNameOriginalValue.ShouldBe(originalValue);
     }
 
     [Fact]
-    public void GetErrors_ShouldReturnCorrectErrorList_WhenInvalid()
+    public void AcceptChanges_ShouldSetIsChangedToFalse_WhenCalled()
     {
         //arrange
-        _sut.Name = new string('a', 11);
-
+        _sut.FirstName = "Test Name";
+        _sut.IsChanged.ShouldBeTrue();
+        
         //act
-        var list = _sut.GetErrors(nameof(_sut.Name));
+        _sut.AcceptChanges();
         
         //assert
-        list.ShouldNotBeNull();
-        list.Cast<string>().ShouldContain("Name cannot be longer than 10 characters");
+        _sut.IsChanged.ShouldBeFalse();
     }
 
     [Fact]
-    public void ErrorsChanged_ShouldFire_WhenErrorExists()
+    public void RejectChanges_ShouldSetTheChangesBackToOriginalValue_WhenHasChanges()
     {
         //arrange
-        var fired = false;
-        _sut.ErrorsChanged += (_,_)=> fired = true;
+        const string originalValue = "Original Name";
+        _sut.FirstName = originalValue;
+        _sut.AcceptChanges();
         
         //act
-        _sut.Name = new string('a', 11);
+        _sut.FirstName = "New Name";
+        _sut.RejectChanges();
         
         //assert
-        fired.ShouldBeTrue();
+        _sut.FirstName.ShouldBe(originalValue);
+        _sut.IsChanged.ShouldBeFalse();
     }
 
     [Fact]
-    public void UpdateLastUpdateTime_ShouldUpdateTheLastUpdatedTime_WhenValid()
+    public void FirstNameIsChanged_ShouldBeTrue_WhenFirstNameChanges()
     {
         //arrange
-        var newTime = DateTime.Now;
         
         //act
-        _sut.UpdateTimeCommand.Execute(newTime);
+        _sut.FirstName = "Test Name";
         
         //assert
-        _sut.LastTimeUpdated.ShouldBe(newTime);
+        _sut.FirstNameIsChanged.ShouldBeTrue();
     }
 
     [Fact]
-    public void UpdateTime_ShouldNotUpdateTime_WhenTimeIsLessThanAlreadyUpdated()
+    public void FirstNameIsChanged_ShouldCallPropertyChanged_WhenFirstNameChangeTheFirstTime()
     {
         //arrange
-        var now = DateTime.Now;
-        _sut.UpdateTimeCommand.Execute(now);
-        var lastTime = now.AddDays(-1);
+        const string originalValue = "Original Name";
+        _sut.FirstName = originalValue;
+        _sut.AcceptChanges();
+        var correctlyCalled = false;
+        _sut.PropertyChanged += (_, e)=> correctlyCalled = (e.PropertyName == nameof(PersonViewModel.FirstNameIsChanged) || correctlyCalled);
         
         //act
-        _sut.UpdateTimeCommand.Execute(lastTime);
+        _sut.FirstName = "New Name";
         
         //assert
-        _sut.LastTimeUpdated.ShouldBe(now);
+        correctlyCalled.ShouldBeTrue();
     }
-    
+
+    [Fact]
+    public void FirstNameOriginalValue_ShouldCallPropertyChanged_WhenFirstNameChanges()
+    {
+        //arrange
+        const string originalValue = "Original Name";
+        _sut.FirstName = originalValue;
+        _sut.AcceptChanges();
+        var correctlyCalled = false;
+        _sut.PropertyChanged += (_, e)=> correctlyCalled = (e.PropertyName == nameof(PersonViewModel.FirstNameOriginalValue) || correctlyCalled);
+
+        //act
+        _sut.FirstName = "New Name";
+        
+        //assert
+        correctlyCalled.ShouldBeTrue();
+    }
+
+    [Fact]
+    public void IsDirty_ShouldBeTrue_WhenValuesChanged()
+    {
+        //arrange
+
+        //act
+        _sut.FirstName = "Test Name";
+        
+        //assert
+        _sut.IsDirty.ShouldBeTrue();
+    }
+
+    [Fact]
+    public void IsDirty_ShouldBeFalse_WhenValuesHaveNotChanged()
+    {
+        //arrange
+
+        //act
+        
+        //assert
+        _sut.IsDirty.ShouldBeFalse();
+    }
+
     private readonly PersonViewModel _sut = new();
 }

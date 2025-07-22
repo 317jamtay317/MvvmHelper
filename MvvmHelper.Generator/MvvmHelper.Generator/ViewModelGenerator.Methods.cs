@@ -11,6 +11,7 @@ public partial class ViewModelGenerator
         """
         using System;
         using System.Windows.Input;
+        using MvvmHelper.Commands;
         namespace {{Namespace}};
         
         public partial class {{className}}
